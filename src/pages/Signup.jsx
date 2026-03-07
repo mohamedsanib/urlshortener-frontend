@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/layout/AuthLayout";
 import { authApi } from "../services/api";
-import { useToast } from "../context/ToastContext";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { GOOGLE_CLIENT_ID } from "../config";
 
 export default function Signup() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [step, setStep] = useState("form"); // form | verify
+  const [step, setStep] = useState("form");
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,17 +68,17 @@ export default function Signup() {
 
         <div className="input-group">
           <label className="input-label">Name</label>
-          <input className="input" type="text" placeholder="Your name" value={form.name} onChange={set("name")} required autoFocus />
+          <input className="input" type="text" name="name" autoComplete="name" placeholder="Your name" value={form.name} onChange={set("name")} required autoFocus />
         </div>
 
         <div className="input-group">
           <label className="input-label">Email</label>
-          <input className="input" type="email" placeholder="you@example.com" value={form.email} onChange={set("email")} required />
+          <input className="input" type="email" name="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={set("email")} required />
         </div>
 
         <div className="input-group">
           <label className="input-label">Password</label>
-          <input className="input" type="password" placeholder="Min. 8 characters" value={form.password} onChange={set("password")} name="new-password" autoComplete="new-password" required minLength={8} />
+          <input className="input" type="password" name="new-password" autoComplete="new-password" placeholder="Min. 8 characters" value={form.password} onChange={set("password")} required minLength={8} />
         </div>
 
         <button className="btn btn-primary btn-full" type="submit" disabled={loading}>
@@ -104,7 +104,6 @@ function GoogleButton() {
   const [loading, setLoading] = useState(false);
   const initialized = useRef(false);
 
-  // Initialize once on mount — not on every click
   useEffect(() => {
     if (!window.google || initialized.current) return;
 
@@ -136,12 +135,7 @@ function GoogleButton() {
   };
 
   return (
-    <button
-      type="button"
-      className="btn btn-google"
-      onClick={handleGoogle}
-      disabled={loading}
-    >
+    <button type="button" className="btn btn-google" onClick={handleGoogle} disabled={loading}>
       {loading ? <span className="spinner spinner-dark" /> : <GoogleIcon />}
       Continue with Google
     </button>
