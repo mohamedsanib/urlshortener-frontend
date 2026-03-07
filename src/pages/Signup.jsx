@@ -101,44 +101,62 @@ function GoogleButton() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
-  const [loading, setLoading] = useState(false);
+  const buttonRef = useRef(null);
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (!window.google || initialized.current) return;
+    const initGoogle = () => {
+      if (!window.google || initialized.current || !buttonRef.current) return;
 
-    window.google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: async (response) => {
-        setLoading(true);
-        try {
-          const res = await authApi.google(response.credential);
-          login(res.token, res.user);
-          navigate("/dashboard");
-        } catch (err) {
-          toast(err.message || "Google sign-in failed", "error");
-        } finally {
-          setLoading(false);
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: async (response) => {
+          try {
+            const res = await authApi.google(response.credential);
+            login(res.token, res.user);
+            navigate("/dashboard");
+          } catch (err) {
+            toast(err.message || "Google sign-in failed", "error");
+          }
+        },
+        ux_mode: "popup",          // always show popup
+        cancel_on_tap_outside: false,
+      });
+
+      // Render the official Google button inside our container
+      window.google.accounts.id.renderButton(buttonRef.current, {
+        type: "standard",
+        shape: "rectangular",
+        theme: "outline",
+        text: "continue_with",
+        size: "large",
+        width: buttonRef.current.offsetWidth || 332,
+        logo_alignment: "left",
+      });
+
+      initialized.current = true;
+    };
+
+    // If google script already loaded
+    if (window.google) {
+      initGoogle();
+    } else {
+      // Wait for script to load
+      const interval = setInterval(() => {
+        if (window.google) {
+          clearInterval(interval);
+          initGoogle();
         }
-      },
-    });
-
-    initialized.current = true;
+      }, 100);
+      return () => clearInterval(interval);
+    }
   }, []);
 
-  const handleGoogle = () => {
-    if (!window.google) {
-      toast("Google script not loaded yet, try again", "error");
-      return;
-    }
-    window.google.accounts.id.prompt();
-  };
-
   return (
-    <button type="button" className="btn btn-google" onClick={handleGoogle} disabled={loading}>
-      {loading ? <span className="spinner spinner-dark" /> : <GoogleIcon />}
-      Continue with Google
-    </button>
+    <div
+      ref={buttonRef}
+      style={{ width: "100%", minHeight: 44, display: "flex", justifyContent: "center" }}
+    />
   );
 }
 
