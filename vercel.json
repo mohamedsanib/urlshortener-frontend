@@ -1,9 +1,12 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/r/:slug",
-      "destination": "https://lnk-smoky.vercel.app/r/:slug"
-    },
+      "destination": "https://api.l.jo3.org/r/:slug",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
