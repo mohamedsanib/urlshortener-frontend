@@ -97,12 +97,11 @@ function GoogleButton() {
   const navigate = useNavigate();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
+  const initialized = useRef(false);
 
-  const handleGoogle = () => {
-    if (!window.google) {
-      toast("Google script not loaded yet, try again", "error");
-      return;
-    }
+  // Initialize once on mount — not on every click
+  useEffect(() => {
+    if (!window.google || initialized.current) return;
 
     window.google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
@@ -120,11 +119,24 @@ function GoogleButton() {
       },
     });
 
+    initialized.current = true;
+  }, []);
+
+  const handleGoogle = () => {
+    if (!window.google) {
+      toast("Google script not loaded yet, try again", "error");
+      return;
+    }
     window.google.accounts.id.prompt();
   };
 
   return (
-    <button type="button" className="btn btn-google" onClick={handleGoogle} disabled={loading}>
+    <button
+      type="button"
+      className="btn btn-google"
+      onClick={handleGoogle}
+      disabled={loading}
+    >
       {loading ? <span className="spinner spinner-dark" /> : <GoogleIcon />}
       Continue with Google
     </button>
