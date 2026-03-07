@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/r/:slug",
+      "destination": "https://api.l.jo3.org/r/:slug"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

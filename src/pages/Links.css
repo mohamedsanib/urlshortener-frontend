@@ -1,0 +1,93 @@
+.links-page { max-width: 860px; }
+
+.links-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.links-header h2 { font-size: 1.5rem; }
+
+.links-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--grey-500);
+}
+.links-empty-icon { font-size: 3rem; margin-bottom: 4px; }
+.links-empty h3 { color: var(--black); font-size: 1.1rem; }
+.links-empty p { font-size: 0.88rem; }
+
+.links-list { display: flex; flex-direction: column; gap: 10px; }
+
+.link-card {
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow var(--transition);
+}
+.link-card:hover { box-shadow: var(--shadow-sm); }
+
+.link-card-main { flex: 1; min-width: 0; display: flex; align-items: center; gap: 16px; }
+.link-card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+
+.link-card-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.link-name { font-weight: 600; font-size: 0.95rem; color: var(--black); }
+
+.link-short {
+  font-size: 0.85rem;
+  color: var(--black);
+  font-weight: 500;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.link-short:hover { text-decoration: underline; }
+
+.link-original {
+  font-size: 0.78rem;
+  color: var(--grey-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
+.link-card-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.link-hits-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+.link-hits-btn:hover { background: var(--grey-100); }
+.link-hits-count { font-size: 1.2rem; font-weight: 600; color: var(--black); line-height: 1; }
+.link-hits-label { font-size: 0.72rem; color: var(--grey-400); }
+
+.link-limit { font-size: 0.8rem; color: var(--grey-400); }
+
+.link-card-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .link-card { flex-direction: column; align-items: flex-start; }
+  .link-card-main { width: 100%; }
+  .link-card-actions { width: 100%; justify-content: flex-end; border-top: 1px solid var(--grey-100); padding-top: 12px; margin-top: 4px; }
+  .link-original { max-width: 260px; }
+}
