@@ -10,5 +10,5 @@ export const GOOGLE_CLIENT_ID = "589128319480-1oon76kg2856ghqdm5mrp590eeq8g364.a
 
 export const BASE_URL = "https://api.l.jo3.org";
 export const API_URL = `${BASE_URL}/api`;
-export const SHORT_URL_BASE = "https://lnk-smoky.vercel.app/r/";
+export const SHORT_URL_BASE = "https://api.l.jo3.org/r/";
 
