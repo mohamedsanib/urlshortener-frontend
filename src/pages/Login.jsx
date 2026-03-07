@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/layout/AuthLayout";
 import { authApi } from "../services/api";
@@ -61,12 +61,12 @@ export default function Login() {
 
         <div className="input-group">
           <label className="input-label">Email</label>
-          <input className="input" type="email" placeholder="you@example.com" value={form.email} onChange={set("email")} required autoFocus />
+          <input className="input" type="email" name="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={set("email")} required autoFocus />
         </div>
 
         <div className="input-group">
           <label className="input-label">Password</label>
-          <input className="input" type="password" placeholder="••••••••" value={form.password} onChange={set("password")} required />
+          <input className="input" type="password" name="password" autoComplete="current-password" placeholder="••••••••" value={form.password} onChange={set("password")} required />
         </div>
 
         <div style={{ textAlign: "right", marginTop: -8 }}>
@@ -91,7 +91,6 @@ export default function Login() {
   );
 }
 
-// Shared Google button (inline here for now)
 function GoogleButton() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -99,7 +98,6 @@ function GoogleButton() {
   const [loading, setLoading] = useState(false);
   const initialized = useRef(false);
 
-  // Initialize once on mount — not on every click
   useEffect(() => {
     if (!window.google || initialized.current) return;
 
@@ -131,12 +129,7 @@ function GoogleButton() {
   };
 
   return (
-    <button
-      type="button"
-      className="btn btn-google"
-      onClick={handleGoogle}
-      disabled={loading}
-    >
+    <button type="button" className="btn btn-google" onClick={handleGoogle} disabled={loading}>
       {loading ? <span className="spinner spinner-dark" /> : <GoogleIcon />}
       Continue with Google
     </button>
